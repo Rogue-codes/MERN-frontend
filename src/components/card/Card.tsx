@@ -8,7 +8,7 @@ export default function Card() {
       <p className="text-xs text-[#6368D9] ml-10 font-medium mb-4">
         Let’s check out your today’s task
       </p>
-      <div className="w-[18rem] py-5 bg-[#6368D9] p-[1.125rem] rounded-[20px] mx-auto">
+      <div className="w-[95%] py-5 bg-[#6368D9] p-[1.125rem] rounded-[20px] mx-auto">
         <h2 className="text-[10px] text-white">62.5% completed</h2>
         <div className="w-[90%] rounded-[20px] bg-transparent h-[8px] border border-white">
           <div className="w-[60%] h-full bg-white"></div>
