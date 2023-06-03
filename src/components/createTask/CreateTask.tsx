@@ -1,14 +1,40 @@
+"use client";
 import { categoryArr } from "@/utils";
-import React from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { useState } from "react";
+
+interface Forminterface {
+  title: string;
+  description: string;
+  isCompleted: boolean;
+  startDate?: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+  category: string;
+}
 
 interface Createtaskprops {
   setCreateTask: React.Dispatch<React.SetStateAction<boolean>>;
+  setFormData: React.Dispatch<React.SetStateAction<Forminterface>>;
+  formData: Forminterface;
 }
-export default function CreateTask({ setCreateTask }: Createtaskprops) {
+export default function CreateTask({
+  setCreateTask,
+  setFormData,
+  formData,
+}: Createtaskprops) {
   const closeAddTask = () => {
     setCreateTask(false);
+  };
+
+  const [activeCat, setActiveCat] = useState<null | number>(null);
+
+  const selectCat = (categoryIndex: number, categoryValue: string) => {
+    setActiveCat(activeCat === categoryIndex ? null : categoryIndex);
+    setFormData({ ...formData, category: categoryValue });
   };
   const dropIn = {
     hidden: {
@@ -29,6 +55,13 @@ export default function CreateTask({ setCreateTask }: Createtaskprops) {
       y: "100vh",
       opacity: 0,
     },
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
   return (
     <motion.div
@@ -56,6 +89,9 @@ export default function CreateTask({ setCreateTask }: Createtaskprops) {
           </label>
           <input
             type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
             className="w-full border border-[#6368D9] rounded-[20px] h-9 px-4 focus:outline-none"
           />
         </div>
@@ -63,13 +99,16 @@ export default function CreateTask({ setCreateTask }: Createtaskprops) {
         <div className="w-[18rem] mx-auto mt-4">
           <label
             htmlFor=""
-            className="text-sm font-medium leading-[21px] text-[#6368D9]"
+            className="text-sm font-medium leading-[21px] text-[#6368D9] block"
           >
             Date
           </label>
           <input
             type="date"
-            className="text-[#6368D9] w-full border border-[#6368D9] rounded-[20px] h-9 px-4 focus:outline-none"
+            name="endDate"
+            value={formData.endDate}
+            onChange={handleChange}
+            className="text-[#6368D9] !w-[18rem] border border-[#6368D9] rounded-[20px] h-9 px-4 focus:outline-none"
           />
         </div>
 
@@ -82,7 +121,10 @@ export default function CreateTask({ setCreateTask }: Createtaskprops) {
               Start time
             </label>
             <input
-              type="date"
+              type="text"
+              name="startTime"
+              value={formData.startTime}
+              onChange={handleChange}
               className="text-[#6368D9] w-full border border-[#6368D9] rounded-[20px] h-9 px-4 focus:outline-none"
             />
           </div>
@@ -95,7 +137,10 @@ export default function CreateTask({ setCreateTask }: Createtaskprops) {
               End time
             </label>
             <input
-              type="date"
+              type="text"
+              name="endTime"
+              value={formData.endTime}
+              onChange={handleChange}
               className="text-[#6368D9] w-full border border-[#6368D9] rounded-[20px] h-9 px-4 focus:outline-none"
             />
           </div>
@@ -109,7 +154,12 @@ export default function CreateTask({ setCreateTask }: Createtaskprops) {
             {categoryArr.map((item, index) => (
               <p
                 key={index}
-                className="border px-2 py-1 mt-1 bg-[#D1D0F9] rounded-[30px] text-[#6368D9] font-medium"
+                className={`border px-2 py-1 mt-1 ${
+                  activeCat === index
+                    ? "text-[#D1D0F9] scale-105 bg-[#6368D9]"
+                    : "bg-[#D1D0F9]  text-[#6368D9]"
+                }  rounded-[30px] font-medium transition-transform`}
+                onClick={() => selectCat(index, item)}
               >
                 {item}
               </p>
@@ -124,7 +174,19 @@ export default function CreateTask({ setCreateTask }: Createtaskprops) {
           >
             Description
           </label>
-          <textarea className="w-full border border-[#6368D9] rounded-[20px] h-28 p-4 focus:outline-none" />
+          <textarea
+            value={formData.description}
+            className="w-full border border-[#6368D9] rounded-[20px] h-28 p-4 focus:outline-none"
+          />
+        </div>
+
+        <div className="w-[18rem] mt-4 mx-auto flex justify-center items-center gap-2">
+          <div className="w-[2.43rem] text-[#6368D9] flex justify-center items-center h-[1.88rem] bg-[#D1D0F9] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[30px]">
+            <RiDeleteBinLine />
+          </div>
+          <button className="w-[9.8rem] h-[1.88rem] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[30px] bg-[#6368D9] text-white text-xs font-medium leading-[18px]">
+            Save task
+          </button>
         </div>
       </form>
     </motion.div>
