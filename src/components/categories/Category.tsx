@@ -34,8 +34,8 @@ export default function Category() {
     },
   ];
   return (
-    <div className="w-[95%] pl-2 mt-7 mx-auto h-64 border-2 border-dashed border-[#6368D9] text-xs rounded-[5px]">
-      <p className="-mt-[.5rem] text-[#6368D9] font-bold ">Task categories</p>
+    <div className="w-[95%] pl-2 mt-7 mx-auto border-2 border-dashed border-[#6368D9] text-xs rounded-[5px]">
+      <p className="mt-1 ml-3 text-[#6368D9] font-bold ">Task categories</p>
 
       <div className="flex p-2 flex-wrap justify-between items-center">
         {categoryArr.map((item, index) => (

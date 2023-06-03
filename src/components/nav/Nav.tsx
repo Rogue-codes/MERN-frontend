@@ -7,15 +7,22 @@ import { BsFillPlusCircleFill } from "react-icons/bs";
 import { RiNotification4Line } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 
-export default function Nav() {
+interface Navprops{
+  setCreateTask:React.Dispatch<React.SetStateAction<boolean>>
+}
+export default function Nav({setCreateTask}:Navprops) {
   const [active, setActive] = useState("home");
 
   const handleActive = (text: string) => {
     setActive(text);
   };
 
+  const handleCreateTask = () =>{
+    setCreateTask(true)
+  }
+
   return (
-    <div className="w-full fixed left-0 bottom-0 z-30 flex px-8 py-2 justify-between items-center">
+    <div className="w-full bg-white backdrop-blur-[30px] fixed left-0 bottom-0 z-30 flex px-8 py-2 justify-between items-center">
       <div
         className={`${
           active === "home" ? "opacity-100" : "opacity-50"
@@ -34,7 +41,7 @@ export default function Nav() {
         <GoCalendar size={30} />
       </div>
 
-      <div className="flex text-[#6368D9] mb-6 shadow-[(0px_4px_4px_rgba(0,0,0,0.25)] rounded-full justify-center items-center">
+      <div className="flex text-[#6368D9] mb-6 shadow-[(0px_4px_4px_rgba(0,0,0,0.25)] rounded-full justify-center items-center" onClick={handleCreateTask}>
         <BsFillPlusCircleFill
           size={50}
           className="shadow-[(0px_4px_4px_rgba(0,0,0,0.25)]"
