@@ -1,7 +1,6 @@
-"use client";
+'use client';
 import Nav from "@/components/nav/Nav";
 import "./globals.css";
-import { Inter } from "next/font/google";
 import React, { useState } from "react";
 import CreateTask from "@/components/createTask/CreateTask";
 
