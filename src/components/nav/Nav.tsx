@@ -22,7 +22,7 @@ export default function Nav({setCreateTask}:Navprops) {
   }
 
   return (
-    <div className="w-full bg-white backdrop-blur-[30px] fixed left-0 bottom-0 z-30 flex px-8 py-2 justify-between items-center">
+    <div className="w-full backdrop-blur-[30px] fixed left-0 bottom-0 z-30 flex px-8 py-2 justify-between items-center">
       <div
         className={`${
           active === "home" ? "opacity-100" : "opacity-50"

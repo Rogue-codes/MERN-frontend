@@ -36,7 +36,7 @@ export default function CreateTask({ setCreateTask }: Createtaskprops) {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="bg-[#F6F2FF] py-14 fixed overflow-y-scroll left-0 top-0 w-full h-[86vh]"
+      className="bg-[#F6F2FF] py-14 fixed overflow-y-scroll left-0 top-0 w-full h-[100vh] z-40"
     >
       <div
         className="text-[#6368D9] flex justify-start gap-2 pl-6"

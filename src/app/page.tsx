@@ -8,7 +8,7 @@ import React, { useState } from "react";
 
 export default function Home() {
   return (
-    <main className="pt-5 h-[90vh] overflow-y-scroll pb-12">
+    <main className="pt-5 h-[88vh] overflow-y-scroll pb-12">
       <Profile />
       <Card />
       <Category />
