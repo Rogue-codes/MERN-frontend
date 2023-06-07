@@ -1,8 +1,8 @@
 export const categoryArr = [
-    "College stuff",
-    "Work",
-    "Social life",
-    "Study",
-    "Personal project",
-    "Home"
+    "college stuff",
+    "work",
+    "social life",
+    "study",
+    "personal project",
+    "home"
 ]

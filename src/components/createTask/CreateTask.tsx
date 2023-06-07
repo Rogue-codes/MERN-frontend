@@ -4,6 +4,8 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useState } from "react";
+import API_FETCHER from "@/ApiFetcher/ApiFetcher";
+import { toast } from "react-toastify";
 
 interface Forminterface {
   title: string;
@@ -18,14 +20,21 @@ interface Forminterface {
 
 interface Createtaskprops {
   setCreateTask: React.Dispatch<React.SetStateAction<boolean>>;
-  setFormData: React.Dispatch<React.SetStateAction<Forminterface>>;
-  formData: Forminterface;
 }
 export default function CreateTask({
   setCreateTask,
-  setFormData,
-  formData,
 }: Createtaskprops) {
+  
+  const [todo,setTodo] = useState<Forminterface>({
+    title:"", 
+    description:"", 
+    isCompleted: false, 
+    startDate:"", 
+    endDate:"", 
+    startTime:"", 
+    endTime:"", 
+    category:""
+  })
   const closeAddTask = () => {
     setCreateTask(false);
   };
@@ -34,7 +43,7 @@ export default function CreateTask({
 
   const selectCat = (categoryIndex: number, categoryValue: string) => {
     setActiveCat(activeCat === categoryIndex ? null : categoryIndex);
-    setFormData({ ...formData, category: categoryValue });
+    setTodo({ ...todo, category: categoryValue });
   };
   const dropIn = {
     hidden: {
@@ -58,11 +67,28 @@ export default function CreateTask({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
+    setTodo({
+      ...todo,
       [e.target.name]: e.target.value,
     });
   };
+
+  console.log(todo);
+
+  const addTask = async (e:any) =>{
+    e.preventDefault()
+    try{
+      const res = await API_FETCHER.post("/add-todo",{
+        todo
+      })
+      toast.success(`Task created!!`)
+    }catch(error){
+      console.log(error)
+    }
+
+  }
+
+ 
   return (
     <motion.div
       variants={dropIn}
@@ -79,7 +105,7 @@ export default function CreateTask({
         <p className="text-sm font-bold leading-[21px]">Create task</p>
       </div>
 
-      <form action="" className="mt-8">
+      <form action="" className="mt-8" onSubmit={addTask}>
         <div className="w-[18rem] mx-auto">
           <label
             htmlFor=""
@@ -90,9 +116,9 @@ export default function CreateTask({
           <input
             type="text"
             name="title"
-            value={formData.title}
+            value={todo.title}
             onChange={handleChange}
-            className="w-full border border-[#6368D9] rounded-[20px] h-9 px-4 focus:outline-none"
+            className="w-full border border-[#6368D9] rounded-[20px] h-9 px-4 focus:outline-none text-[#6368D9]"
           />
         </div>
 
@@ -106,7 +132,7 @@ export default function CreateTask({
           <input
             type="date"
             name="endDate"
-            value={formData.endDate}
+            value={todo.endDate}
             onChange={handleChange}
             className="text-[#6368D9] !w-[18rem] border border-[#6368D9] rounded-[20px] h-9 px-4 focus:outline-none"
           />
@@ -121,9 +147,9 @@ export default function CreateTask({
               Start time
             </label>
             <input
-              type="text"
+              type="time"
               name="startTime"
-              value={formData.startTime}
+              value={todo.startTime}
               onChange={handleChange}
               className="text-[#6368D9] w-full border border-[#6368D9] rounded-[20px] h-9 px-4 focus:outline-none"
             />
@@ -137,9 +163,9 @@ export default function CreateTask({
               End time
             </label>
             <input
-              type="text"
+              type="time"
               name="endTime"
-              value={formData.endTime}
+              value={todo.endTime}
               onChange={handleChange}
               className="text-[#6368D9] w-full border border-[#6368D9] rounded-[20px] h-9 px-4 focus:outline-none"
             />
@@ -175,8 +201,10 @@ export default function CreateTask({
             Description
           </label>
           <textarea
-            value={formData.description}
-            className="w-full border border-[#6368D9] rounded-[20px] h-28 p-4 focus:outline-none"
+            value={todo.description}
+            name="description"
+            onChange={handleChange}
+            className="w-full border border-[#6368D9] text-[#6368D9] rounded-[20px] h-28 p-4 focus:outline-none"
           />
         </div>
 
