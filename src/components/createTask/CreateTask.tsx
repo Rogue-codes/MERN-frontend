@@ -6,6 +6,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { useState } from "react";
 import API_FETCHER from "@/ApiFetcher/ApiFetcher";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 interface Forminterface {
   title: string;
@@ -21,20 +22,17 @@ interface Forminterface {
 interface Createtaskprops {
   setCreateTask: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function CreateTask({
-  setCreateTask,
-}: Createtaskprops) {
-  
-  const [todo,setTodo] = useState<Forminterface>({
-    title:"", 
-    description:"", 
-    isCompleted: false, 
-    startDate:"", 
-    endDate:"", 
-    startTime:"", 
-    endTime:"", 
-    category:""
-  })
+export default function CreateTask({ setCreateTask }: Createtaskprops) {
+  const [todo, setTodo] = useState<Forminterface>({
+    title: "",
+    description: "",
+    isCompleted: false,
+    startDate: "",
+    endDate: "",
+    startTime: "",
+    endTime: "",
+    category: "",
+  });
   const closeAddTask = () => {
     setCreateTask(false);
   };
@@ -66,7 +64,7 @@ export default function CreateTask({
     },
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     setTodo({
       ...todo,
       [e.target.name]: e.target.value,
@@ -75,27 +73,30 @@ export default function CreateTask({
 
   console.log(todo);
 
-  const addTask = async (e:any) =>{
-    e.preventDefault()
-    try{
-      const res = await API_FETCHER.post("/add-todo",{
-        todo
-      })
-      toast.success(`Task created!!`)
-    }catch(error){
-      console.log(error)
+  const baseURL= process.env.NEXT_PUBLIC_API_URL
+
+  const addTask = async (e: any) => {
+    e.preventDefault();
+    try {
+      // Make the axios request
+      const res = await axios.post(`http://localhost:5000/api/v1/todo/add-todo`, {
+        todo,
+      });
+
+      // Display the toast message
+      toast.success(`Task created!!`);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-  }
-
- 
   return (
     <motion.div
       variants={dropIn}
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="bg-[#F6F2FF] py-14 fixed overflow-y-scroll left-0 top-0 w-full h-[100vh] z-40"
+      className="bg-[#F6F2FF] py-4 fixed overflow-y-scroll left-0 top-0 w-full h-[100vh] z-40"
     >
       <div
         className="text-[#6368D9] flex justify-start gap-2 pl-6"
